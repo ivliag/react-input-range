@@ -367,6 +367,22 @@ export default class InputRange extends React.Component {
     this.updateValue(key, value);
   }
 
+  renderMinLabel(minValue) {
+    if (typeof this.props.formatMinValueLabel === 'function') {
+      return this.props.formatMinValueLabel(minValue);
+    }
+
+    return minValue;
+  }
+
+  renderMaxLabel(maxValue) {
+    if (typeof this.props.formatMaxValueLabel === 'function') {
+      return this.props.formatMaxValueLabel(maxValue);
+    }
+
+    return maxValue;
+  }
+
   /**
    * Handle any mousemove event received by the slider
    * @param {SyntheticEvent} event - User event
@@ -533,9 +549,11 @@ export default class InputRange extends React.Component {
    */
   render() {
     const { classNames } = this.props;
+    const { minValue, maxValue } = this.props;
     const componentClassName = getComponentClassName(this);
     const values = valueTransformer.valuesFromProps(this);
     const percentages = valueTransformer.percentagesFromValues(this, values);
+
 
     return (
       <div
@@ -549,7 +567,7 @@ export default class InputRange extends React.Component {
         <Label
           className={ classNames.labelMin }
           containerClassName={ classNames.labelContainer }>
-          { this.props.minValue }
+          { this.renderMinLabel(minValue) }
         </Label>
 
         <Track
@@ -564,7 +582,7 @@ export default class InputRange extends React.Component {
         <Label
           className={ classNames.labelMax }
           containerClassName={ classNames.labelContainer }>
-          { this.props.maxValue }
+          { this.renderMaxLabel(maxValue) }
         </Label>
 
         { renderHiddenInputs(this) }
@@ -602,6 +620,8 @@ InputRange.propTypes = {
   onChangeComplete: React.PropTypes.func,
   step: React.PropTypes.number,
   value: maxMinValuePropType,
+  formatMinValueLabel: React.PropTypes.func,
+  formatMaxValueLabel: React.PropTypes.func,
 };
 
 /**

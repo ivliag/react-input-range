@@ -93,6 +93,8 @@ class App extends React.Component {
           value={this.state.value5}
           defaultValue={defaultValue2}
           onChange={this.handleValue5Change.bind(this)}
+          formatMinValueLabel={val => val + ' mm'}
+          formatMaxValueLabel={val => val + ' km'}
         />
 
         <InputRange
